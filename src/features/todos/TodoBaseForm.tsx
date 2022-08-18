@@ -8,6 +8,7 @@ import {toFormikValidationSchema} from "zod-formik-adapter"
 import { TODO_VALIDATORS } from "../../shared/validators/todo.validators"
 import { useMutation, useQuery, useTrpcCtx } from "../../utils/trpc"
 import Input from "../form/Input"
+import { Routes } from "../../utils/routes"
 
 type Props<Mode extends "create" | "update"> = {
     mode: Mode
@@ -41,6 +42,7 @@ const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX
     ? {data: {} as any} 
     // eslint-disable-next-line react-hooks/rules-of-hooks
     : useQuery(["todo.getOne", {id: todoId}])
+    
     const {mutateAsync} = useMutation(mode === "create" ? "todo.create" : "todo.update", {
         onSuccess(data, variables, context) {
             trpcCtx.setQueryData(["todo.getAll"], 
@@ -52,6 +54,8 @@ const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX
                     : t
                 )
             )
+
+            router.push(Routes.TODOS)
         },
     })
 
@@ -65,15 +69,7 @@ const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX
 
     return (
         <Formik onSubmit={async (values, helpers) => toast.promise(
-            mutateAsync(values, {
-                onSuccess(data, variables, context) {
-                    helpers.setSubmitting(false)
-                    router.push("/todos")
-                },
-                // onError(error, variables, context) {
-                //     toast.error(error.message)
-                // },
-            }),
+            mutateAsync(values,),
             {
                 pending: "Submitting...",
                 success: `Todo was successfully ${mode}d!`,

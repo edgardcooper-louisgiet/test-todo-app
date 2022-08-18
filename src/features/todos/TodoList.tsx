@@ -44,7 +44,7 @@ const useDraggableTodos = () => {
 
 
         // TODO: fix this running on page load.
-        reorderMutation.mutateAsync(todos)
+        // reorderMutation.mutateAsync(todos)
     }, 5000, [todos])
 
 
