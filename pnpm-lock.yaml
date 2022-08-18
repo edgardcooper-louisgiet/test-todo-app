@@ -13,10 +13,9 @@ specifiers:
   '@types/nprogress': ^0.2.0
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
-  '@ziothh/react-hooks': link:lib/@ziothh/react/hooks
+  '@ziothh/react-hooks': file:lib/@ziothh/react/hooks
   autoprefixer: ^10.4.8
   classnames: ^2.3.1
-  dnd: link:@types/@hello-pangea/dnd
   eslint: 8.18.0
   eslint-config-next: 12.2.3
   formik: ^2.2.9
@@ -46,7 +45,7 @@ dependencies:
   '@trpc/next': 9.27.0_mvtpe6ve2rup7xmywn26mj63mu
   '@trpc/react': 9.27.0_6kynlixhwtdnconxwynxyvz5km
   '@trpc/server': 9.27.0
-  '@ziothh/react-hooks': link:lib/@ziothh/react/hooks
+  '@ziothh/react-hooks': file:lib/@ziothh/react/hooks
   classnames: 2.3.1
   formik: 2.2.9_react@18.2.0
   next: 12.2.3_biqbaboplfbrettd7655fr4n2y
@@ -68,7 +67,6 @@ devDependencies:
   '@types/react': 18.0.14
   '@types/react-dom': 18.0.5
   autoprefixer: 10.4.8_postcss@8.4.16
-  dnd: link:@types/@hello-pangea/dnd
   eslint: 8.18.0
   eslint-config-next: 12.2.3_b5e7v2qnwxfo6hmiq56u52mz3e
   postcss: 8.4.16
@@ -1854,7 +1852,6 @@ packages:
   /object-assign/4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /object-hash/2.2.0:
     resolution: {integrity: sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==}
@@ -2237,6 +2234,14 @@ packages:
       clsx: 1.2.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /react/17.0.2:
+    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: false
 
   /react/18.2.0:
@@ -2666,4 +2671,12 @@ packages:
 
   /zod/3.18.0:
     resolution: {integrity: sha512-gwTm8RfUCe8l9rDwN5r2A17DkAa8Ez4Yl4yXqc5VqeGaXaJahzYYXbTwvhroZi0SNBqTwh/bKm2N0mpCzuw4bA==}
+    dev: false
+
+  file:lib/@ziothh/react/hooks:
+    resolution: {directory: lib/@ziothh/react/hooks, type: directory}
+    name: '@ziothh/react-hooks'
+    version: 0.0.1
+    dependencies:
+      react: 17.0.2
     dev: false
