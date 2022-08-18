@@ -31,6 +31,7 @@ const useDraggableTodos = () => {
     
     const trpcCtx = useTrpcCtx()
 
+
     const reorderMutation = useMutation("todo.reorder", {
         onError(error, variables, context) {
             toast.error("Something went wrong whilst reordering your todos")
@@ -42,9 +43,8 @@ const useDraggableTodos = () => {
     useDebounce(() => {
         if (isLoading || isRefetching) return
 
-
         // TODO: fix this running on page load.
-        // reorderMutation.mutateAsync(todos)
+        reorderMutation.mutateAsync(todos)
     }, 5000, [todos])
 
 
@@ -52,7 +52,7 @@ const useDraggableTodos = () => {
         if (isLoading || isRefetching) return
 
         setTodos(data!)
-    }, [isLoading, isRefetching])
+    }, [data])
 
     // useEffect(() => {
     //     localStorage.setItem("lastKnowAmountOfTodos", `${todos.length}`)
