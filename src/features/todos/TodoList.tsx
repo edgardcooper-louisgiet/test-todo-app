@@ -10,7 +10,7 @@ import { DragDropContext, DragDropContextProps, Draggable, Droppable } from "@he
 import { toast } from "react-toastify"
 import { startTransition, useEffect, useMemo, useRef, useState } from "react"
 import { Todo } from "@prisma/client"
-import { useDebounce } from "@ziothh/react-hooks"
+import useDebounce from "@ziothh/react-hooks/dist/effect/useDebounce"
 
 interface Props {
     
