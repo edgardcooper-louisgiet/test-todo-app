@@ -28,7 +28,12 @@ const MyApp: AppType = ({
 
     return (
         <SessionProvider session={session}>
-            <ToastContainer theme="dark"/>
+            <ToastContainer 
+            theme="colored"
+            closeOnClick
+            draggablePercent={20}
+            newestOnTop
+            />
             
             <Layout>
                 <SubLayout>

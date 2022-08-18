@@ -1,4 +1,3 @@
-import TodoApp from "../../features/todos/TodoApp"
-import { createPage } from "../../utils/nextjs"
+import TodoPage from "../../features/todos/TodoPage"
 
-export default createPage(TodoApp)
+export default TodoPage

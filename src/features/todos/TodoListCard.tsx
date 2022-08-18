@@ -20,11 +20,11 @@ const TodoListCard: React.FC<Props> = ({todo}) => {
             ))
         },
         onSuccess(data) {
-            // trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
-            //     t => t.id === todo.id 
-            //     ? data
-            //     : t
-            // ))
+            trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
+                t => t.id === todo.id 
+                ? data
+                : t
+            ))
         },
         onError(error, variables, context) {
             trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
@@ -34,10 +34,14 @@ const TodoListCard: React.FC<Props> = ({todo}) => {
             ))
         },
     }) 
-    const {mutateAsync: deleteTodo} = useMutation("todo.delete") 
+    const {mutateAsync: deleteTodo} = useMutation("todo.delete", {
+        onError(error, variables, context) {
+            console.log("hiiii");
+        },
+    }) 
 
     return (
-        <div onClick={(e) => e.target === e.currentTarget && toggleIsCompleted({id: todo.id, isCompleted: !todo.isCompleted})}
+        <div onClick={(e) => toggleIsCompleted({id: todo.id, isCompleted: !todo.isCompleted})}
         className={`
         relative overflow-hidden
         rounded-md py-2 pr-2 pl-6 w-full
@@ -60,7 +64,7 @@ const TodoListCard: React.FC<Props> = ({todo}) => {
             `}>
                 {todo.name}
             </h2>
-            <div className="ml-auto flex items-center gap-2">
+            <div onClick={(e) => e.stopPropagation()} className="ml-auto flex items-center gap-2">
                 <Link href={`todos/${todo.id}`}>
                     <a onMouseOver={() => {trpcCtx.prefetchQuery(["todo.getOne", {id: todo.id}])}}
                     className="
@@ -74,18 +78,32 @@ const TodoListCard: React.FC<Props> = ({todo}) => {
                     </a>
                 </Link>
                 <button 
-                onClick={async () => toast.promise(
-                    deleteTodo({id: todo.id}, {
-                        onSuccess(data, variables, context) {
-                            trpcCtx.setQueryData(["todo.getAll"], todos => todos!.filter(t => t.id !== todo.id))
-                        },
-                    }), 
-                    {
-                        pending: "Deleting...",
-                        success: "Todo successfully deleted!",
-                        error: "An error occured while deleting the todo."
-                    }
-                )}
+                onClick={async () => {
+                    const BACKUP = [...trpcCtx.getQueryData(["todo.getAll"])!]
+
+                    const reset = () => {trpcCtx.setQueryData(["todo.getAll"], BACKUP)}
+
+                    toast.promise(
+                        deleteTodo({id: todo.id}, {
+                            // onSuccess(data, variables, context) {
+                            //     // Moved to be called onClick
+                            // },
+                            // onError(error, variables, context) {
+                            //     reset()
+                            //     // This doesn't catch network errors for some reason...
+                                
+                            // },
+                        }), 
+                        {
+                            pending: "Deleting...",
+                            success: "Todo successfully deleted!",
+                            error: "An error occured while deleting the todo."
+                        }
+                    ).catch(err => reset())
+
+
+                    trpcCtx.setQueryData(["todo.getAll"], todos => todos!.filter(t => t.id !== todo.id))
+                }}
                 className="
                 transition-all duration-150
                 bg-red-500 hover:bg-red-600

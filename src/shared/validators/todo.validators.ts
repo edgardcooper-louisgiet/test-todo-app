@@ -9,7 +9,7 @@ export const TODO_VALIDATORS = {
             id: z.string(),
             name: z.string().min(1),
             order: z.number().optional(),
-            description: z.string().optional(),
+            description: z.string().nullable().optional(),
             isCompleted: z.boolean().optional(),
         }),
         create: z.object({

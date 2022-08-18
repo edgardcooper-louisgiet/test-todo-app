@@ -1,3 +1,4 @@
+import { Todo } from "@prisma/client";
 import { z } from "zod";
 import { TODO_VALIDATORS } from "../../../shared/validators/todo.validators";
 import { prisma } from "../../db/client";
@@ -77,6 +78,27 @@ const todoRouter = createRouter()
                 ...input
             }
         })
+    }
+})
+.mutation("reorder", {
+    input: z.array(z.object({
+        id: z.string(),
+    })),
+    async resolve({ctx, input}) {
+        const updatedTodos: Todo[] = [];
+
+        for (let index = 0; index < input.length; index++) {
+            const todo = input[index]!
+
+            updatedTodos.push(await prisma.todo.update({
+                data: {
+                    order: index,
+                },
+                where: {id: todo.id},
+            }))
+        }
+
+        return updatedTodos
     }
 })
 .mutation("delete", {
