@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 6969",
-    "build": "next build",
+    "build": "prisma generate && prisma db push && next build",
+    "build:dev": "next build",
     "start": "next start --port 6969",
     "lint": "next lint",
     "postinstall": "prisma generate"
