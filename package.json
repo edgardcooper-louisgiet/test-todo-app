@@ -19,7 +19,7 @@
     "@trpc/next": "^9.27.0",
     "@trpc/react": "^9.27.0",
     "@trpc/server": "^9.27.0",
-    "@ziothh/react-hooks": "file:lib/@ziothh/react/hooks",
+    "@ziothh/react-hooks": "link:lib/@ziothh/react/hooks",
     "classnames": "^2.3.1",
     "formik": "^2.2.9",
     "next": "12.2.3",
