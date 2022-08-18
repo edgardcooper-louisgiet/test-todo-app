@@ -3,16 +3,26 @@
 
 generator client {
     provider = "prisma-client-js"
+    // reviewFeatures = ["referentialIntegrity"]
+    previewFeatures = ["referentialIntegrity"]
 }
 
+// datasource db {
+//     provider = "mysql"
+//     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.text annotations in model Account below
+//     // Further reading: 
+//     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
+//     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+//     url      = env("DATABASE_URL")
+// }
+
 datasource db {
-    provider = "sqlite"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.text annotations in model Account below
-    // Further reading: 
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
+    provider = "mysql"
+//   url = "mysql://spxdijq3vnn8:pscale_pw_oauw_-1LeQqoPsf9p1E77a6HkGGVaMIhyBMPYV6tfLc@ry9lwxhg3ebx.aws-eu-west-2-1.psdb.cloud/todo-applet?sslaccept=strict"
     url      = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
 }
+
 
 // Necessary for Next auth
 model Account {
