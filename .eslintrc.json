@@ -3,6 +3,7 @@
   "rules": {
     "react/display-name": "off",
     "import/no-anonymous-default-export": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "react-hooks/rules-of-hooks": "off"
   }
 }

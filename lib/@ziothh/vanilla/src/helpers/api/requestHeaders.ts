@@ -1,1 +1,0 @@
-export const jsonRequestHeader = {"Content-Type": "application/json"}

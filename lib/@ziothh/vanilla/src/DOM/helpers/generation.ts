@@ -1,1 +1,0 @@
-export const generateDataAttribute = (name: string, value: string) => `[data-${name}="${value}"]`
