@@ -62,6 +62,8 @@ export default withTRPC<AppRouter>({
      */
     const url = `${getBaseUrl()}/api/trpc`;
 
+    const isDev = process.env.NODE_ENV === "development"
+
     return {
       url,
       transformer: superjson,
@@ -70,8 +72,8 @@ export default withTRPC<AppRouter>({
             queries: {
                 refetchInterval: false,
                 refetchOnMount: false,
-                refetchOnReconnect: false,
-                refetchOnWindowFocus: false,
+                refetchOnReconnect: !isDev,
+                refetchOnWindowFocus: !isDev,
                 cacheTime: Infinity,
                 staleTime: Infinity,
             }
