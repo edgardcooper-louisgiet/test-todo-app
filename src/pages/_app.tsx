@@ -32,6 +32,7 @@ const MyApp: AppType = ({
             theme="colored"
             closeOnClick
             draggablePercent={20}
+            autoClose={500}
             newestOnTop
             />
             

@@ -4,6 +4,7 @@ import { useMutation, useQuery, useTrpcCtx } from "../../utils/trpc"
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { toast } from "react-toastify"
 import { Routes } from "../../utils/routes"
+import { useDebounceMap } from "../../utils/debounce"
 
 interface Props {
     todo: Todo
@@ -12,20 +13,17 @@ interface Props {
 
 const TodoListCard: React.FC<Props> = ({todo}) => {
     const trpcCtx = useTrpcCtx()
+    const debounce = useDebounceMap(["toggleCompleted"] as const)
     const {mutateAsync: toggleIsCompleted} = useMutation("todo.toggleCompleted", {
-        onMutate(variables) {
-            trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
-                t => t.id === todo.id 
-                ? {...t, isCompleted: !t.isCompleted}
-                : t
-            ))
-        },
+        // onMutate(variables) {
+        
+        // },
         onSuccess(data) {
-            trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
-                t => t.id === todo.id 
-                ? data
-                : t
-            ))
+            // trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
+            //     t => t.id === todo.id 
+            //     ? data
+            //     : t
+            // ))
         },
         onError(error, variables, context) {
             trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
@@ -37,12 +35,22 @@ const TodoListCard: React.FC<Props> = ({todo}) => {
     }) 
     const {mutateAsync: deleteTodo} = useMutation("todo.delete", {
         onError(error, variables, context) {
-            console.log("hiiii");
+            // console.log("hiiii");
         },
-    }) 
+    })
 
     return (
-        <div onClick={(e) => toggleIsCompleted({id: todo.id, isCompleted: !todo.isCompleted})}
+        <div onClick={(e) => {
+            trpcCtx.setQueryData(["todo.getAll"], prev => prev!.map(
+                t => t.id === todo.id 
+                ? {...t, isCompleted: !t.isCompleted}
+                : t
+            ))
+
+            debounce("toggleCompleted", () => {
+                toggleIsCompleted({id: todo.id, isCompleted: !todo.isCompleted})
+            })
+        }}
         className={`
         relative overflow-hidden
         rounded-md py-2 pr-2 pl-6 w-full
@@ -66,7 +74,7 @@ const TodoListCard: React.FC<Props> = ({todo}) => {
                 {todo.name}
             </h2>
             <div onClick={(e) => e.stopPropagation()} className="ml-auto flex items-center gap-2">
-                <Link href={`${Routes.TODOS}$${todo.id}`}>
+                <Link href={`${Routes.TODOS}${todo.id}`}>
                     <a onMouseOver={() => {trpcCtx.prefetchQuery(["todo.getOne", {id: todo.id}])}}
                     className="
                     transition-all duration-150

@@ -31,10 +31,10 @@ const initialValues: Omit<Todo, "createdAt" | "updatedAt" | "id" | "order" | "is
 
 const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX.Element => {
     const {mode} = props
-    const todoId = props.mode === "update" 
+    const todoId: string = props.mode === "update" 
     // @ts-ignore
     ? props.todoId
-    : "null"
+    : "new"
 
     const router = useRouter()
     const trpcCtx = useTrpcCtx()
@@ -55,7 +55,12 @@ const TodoBaseForm = <Mode extends "create" | "update">(props: Props<Mode>): JSX
                 )
             )
 
+        },
+        onMutate(variables) {
             router.push(Routes.TODOS)
+        },
+        onError(error, variables, context) {
+            router.push(Routes.TODOS + todoId)
         },
     })
 

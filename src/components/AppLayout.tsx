@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import { PropsWithChildren } from "react"
+import { ReactQueryDevtools } from "react-query/devtools"
 
 interface Props {
     className?: string
@@ -18,6 +19,8 @@ const AppLayout: React.FC<PropsWithChildren<Props>> = ({
         bg-neutral-600 
         `, className)}>
             {children}
+
+            <ReactQueryDevtools/>
         </div>
     )
 }
